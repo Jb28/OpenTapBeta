@@ -11,8 +11,8 @@
   "iot-tab": {
     "fileStatus": {
       ".gitignore": {
-        "previousModTime": 1474722097114,
-        "modified": 1474722097114,
+        "previousModTime": 1474736183433,
+        "modified": 1474736183433,
         "seen": true,
         "name": ".gitignore"
       },
@@ -23,8 +23,8 @@
         "name": "Example.xdk"
       },
       "Example.xdke": {
-        "previousModTime": 1474735782253,
-        "modified": 1474735782253,
+        "previousModTime": 1474744340074,
+        "modified": 1474744340074,
         "seen": true,
         "name": "Example.xdke"
       },
@@ -35,14 +35,14 @@
         "name": "icon.png"
       },
       "main.js": {
-        "previousModTime": 1474735770561,
-        "modified": 1474735770561,
+        "previousModTime": 1474744388061,
+        "modified": 1474744388061,
         "seen": true,
         "name": "main.js"
       },
       "package.json": {
-        "previousModTime": 1474729711535,
-        "modified": 1474729711535,
+        "previousModTime": 1474743325815,
+        "modified": 1474743325815,
         "seen": true,
         "name": "package.json"
       },
@@ -65,6 +65,10 @@
         "name": "index.html"
       }
     },
-    "boardFileStatus": {}
+    "boardFileStatus": {
+      "main.js": {
+        "previousModTime": 1474744393440
+      }
+    }
   }
 }

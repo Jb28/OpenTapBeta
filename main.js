@@ -4,12 +4,13 @@ var fs = require('fs');
 var lcd = require('jsupm_i2clcd');
 var display = new lcd.Jhd1313m1(0, 0x3E, 0x62);
 var http = require('http');
-var serverIp = 'http://25.73.188.26:4200/'
+var serverIp = 'http://192.168.42.22:4200';
 var digital_pin_D2 = new mraa.Gpio(2);
 digital_pin_D2.dir(mraa.DIR_IN);
 
 var digital_pin_D6 = new mraa.Gpio(6);
 digital_pin_D6.dir(mraa.DIR_OUT);
+var Futures = require('futures');   
 
 function startSensorWatch(socket) {
     'use strict';
@@ -34,34 +35,81 @@ function startSensorWatch(socket) {
 }
 
 function postOrderRaised(orderStatus) {
-    //http.get({
-    //    host: serverIp,
-    //    path: '/buy?order=' + orderStatus    
-    //});
+    //lazy post
+    console.log('postOrderRaised');
+    http.get(serverIp + '/buy/' + orderStatus).on('error', function(e) {
+        console.log('shit got real.');
+    });
     console.log("DONE");
 }
 
 
 function startResponsePoll() {
-    var Count=0;
-    var ServerResponse=0;
-    while(Count<5){
-        console.log('callback of get response from server for order');
-        display.write(".");
-        if(ServerResponse!==0) return ServerResponse;
-        sleep(300);
-        Count++;
-    }
-    return 3;
+    var Count = 0;
+    var ServerResponse = 0;
+    console.log('startResponsePoll');
+//    while (Count < 5) {
+//        console.log('callback of get response from server for order');
+//        display.write(".");
+//        //if (ServerResponse !== 0) return ServerResponse;
+//        var sequence = Futures.sequence();
+//        sequence
+//            .then(function(next){
+//                http.get(serverIp + '/status', function(res) {
+//                    console.log('Response from server poll: ' + res);
+//                    res.on("data", function(chunk) {
+//                        console.log("body: " + chunk);
+//                    })
+//                }).on('error', function(e) {
+//                    return 3; //error at the web service
+//                });
+//            })
+//            .then(function(next, res) {
+//                if (res !== 0) {
+//                    return res;
+//                }
+//            })
+//        sleep(2000);
+//        Count++;
+//    }
+//    display.write(".");
+//    var invalidResponse = null;
+//     http.get(serverIp + '/status', function (res) {
+//            console.log('Response from server poll: ' + res);
+//            res.on("data", function (chunk) {
+//                console.log("body: " + chunk);
+//                invalidResponse = chunk;
+//            })
+//        }).on('error', function (e) {
+//            return 3; //error at the web service
+//        });
+//    while (invalidResponse === null) {        
+//       console.log('jeesus');
+//        sleep(100);
+//    }
+//    if (invalidResponse === 0) {
+//        startResponsePoll();
+//    } else {
+//        return invalidResponse;
+//    }    
+    display.write(".");
+    http.get(serverIp + '/status', function (res) {
+    console.log('Response from server poll: ' + res);
+        res.on("data", function (chunk) {
+            console.log("body: " + chunk);
+            return chunk;
+        })
+    }).on('error', function (e) {
+        return 3; //error at the web service
+    });
 }
-
 
 //0 - is tap to order 
 //      1 beer: £5.50
 //1 - Processing order...
 //2 - Order on its way!
 function manageLCD(buttonState) {
-    
+
     if (buttonState === 0) {
         display.clear();
         display.setColor(255, 240, 240); //white
@@ -77,7 +125,7 @@ function manageLCD(buttonState) {
         display.write('Processing your');
         display.setCursor(1, 4);
         display.write('Order');
-        manageLCD(startResponsePoll());
+        console.log(startResponsePoll());
     } else if (buttonState === 2) {
         display.setColor(0, 255, 0);
     } else if (buttonState === 3) {
@@ -106,37 +154,37 @@ function manageLCD(buttonState) {
         manageLCD(0);
         console.log('setting screen red');
     }
-    
-   
-    
-//    display.setCursor(1, 1);
-//    display.write('hi there');
-//    
-//    display.setCursor(0,0);
-//    display.write('more text');
+
+
+
+    //    display.setCursor(1, 1);
+    //    display.write('hi there');
+    //    
+    //    display.setCursor(0,0);
+    //    display.write('more text');
 }
 
 
 //Create Socket.io server
 
 var app = http.createServer(function (req, res) {
-//    'use strict';
-//    res.writeHead(200, {'Content-Type': 'text/plain'});
-//    res.end('<h1>Hello world from Intel IoT platform!</h1>');
+    //    'use strict';
+    //    res.writeHead(200, {'Content-Type': 'text/plain'});
+    //    res.end('<h1>Hello world from Intel IoT platform!</h1>');
 
-//    THis will take out the index.html
-        fs.readFile(__dirname + '/index.html',
-      function (err, data) {
-        if (err) {
-          res.writeHead(500);
-          return res.end('Error loading index.html');
-        }
+    //    THis will take out the index.html
+    fs.readFile(__dirname + '/index.html',
+        function (err, data) {
+            if (err) {
+                res.writeHead(500);
+                return res.end('Error loading index.html');
+            }
 
-        res.writeHead(200);
-        res.end(data);
-      });
-    
-    
+            res.writeHead(200);
+            res.end(data);
+        });
+
+
 }).listen(1337);
 
 var io = require('socket.io')(app);
@@ -149,12 +197,12 @@ io.on('connection', function (socket) {
     console.log('a user connected');
     //Emits an event along with a message
     socket.emit('news', { hello: 'world' });
-    
+
     manageLCD(0);
-    
+
     //Start watching Sensors connected to Galileo board
     startSensorWatch(socket);
-    
+
     //Attach a 'disconnect' event handler to the socket
     socket.on('disconnect', function () {
         console.log('user disconnected');
@@ -183,10 +231,10 @@ io.on('connection', function (socket) {
 ////    });
 //});
 function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
     }
-  }
 }
