@@ -17,8 +17,8 @@
         "name": "bbb.xdk"
       },
       "bbb.xdke": {
-        "previousModTime": 1474719190540,
-        "modified": 1474719190540,
+        "previousModTime": 1474721683612,
+        "modified": 1474721683612,
         "seen": true,
         "name": "bbb.xdke"
       },
@@ -35,8 +35,8 @@
         "name": "lcd.js"
       },
       "main.js": {
-        "previousModTime": 1474672755666,
-        "modified": 1474672755666,
+        "previousModTime": 1474721707125,
+        "modified": 1474721707125,
         "seen": true,
         "name": "main.js"
       },
@@ -59,6 +59,10 @@
         "name": "xdk/project-info.json"
       }
     },
-    "boardFileStatus": {}
+    "boardFileStatus": {
+      "main.js": {
+        "previousModTime": 1474721708064
+      }
+    }
   }
 }

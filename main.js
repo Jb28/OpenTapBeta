@@ -3,7 +3,10 @@
 
 var mraa = require('mraa');
 
-
+    var lcd = require('jsupm_i2clcd');
+    var display = new lcd.Jhd1313m1(0, 0x3E, 0x62);
+    var button = new mraa.Gpio(4);
+    var buzzer = new mraa.Gpio(3);
 
 main();
 
@@ -12,10 +15,7 @@ main();
 //display.setColor(red, green, blue);
 
 function main() {
-    var lcd = require('jsupm_i2clcd');
-    var display = new lcd.Jhd1313m1(0, 0x3E, 0x62);
-    var button = new mraa.Gpio(4);
-    var buzzer = new mraa.Gpio(3);
+
     button.dir(mraa.DIR_IN);
     buzzer.dir(mraa.DIR_OUT);
     buzzer.write(0);
