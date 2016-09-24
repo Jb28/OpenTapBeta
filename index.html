@@ -1,0 +1,20 @@
+<div id="div1">
+    <p id="p1">This is a paragraph.</p>
+    <p id="p2">This is another paragraph.</p>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io('http://192.168.42.1:1337/');
+//  socket.on('news', function (data) {
+//    //socket.emit('my other event', { my: 'data' });
+//  });
+    socket.on('orderRaised', function(data) {
+        var para = document.createElement("p");
+      var node = document.createTextNode(data.information);
+      para.appendChild(node);
+
+      var element = document.getElementById("div1");
+      element.appendChild(para); 
+    })
+</script>

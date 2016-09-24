@@ -3,10 +3,10 @@
     "projectSettingsVersion": "3.0.0",
     "creationData": {
       "projectTypeName": "com.intel.xdk.projecttype.iotapp",
-      "src": "iotapp/iotapp-template-lcd-driver/sample.zip",
-      "projectGuid": "196e5e38-1b0e-4e2f-9cf5-d6e0c54f5c79",
-      "lastModifiedDate": 1474669602700,
-      "creationDate": 1474669601837
+      "src": "iotapp/iotapp-touch-notifier/sample.zip",
+      "projectGuid": "c4fedd18-9415-48af-876a-e8fb154d5d8d",
+      "lastModifiedDate": 1474722098095,
+      "creationDate": 1474722097474
     },
     "sourceDirectory": "",
     "cordovaPluginsDirectory": "plugins",
@@ -21,7 +21,22 @@
         }
       }
     },
-    "libraries": [],
+    "libraries": [
+      {
+        "name": "Cordova",
+        "version": "2.9.0",
+        "data": {
+          "default": true
+        }
+      },
+      {
+        "name": "intelXDK",
+        "version": "4.0.0",
+        "data": {
+          "default": true
+        }
+      }
+    ],
     "cordovaPlugins": [],
     "serviceMethods": [],
     "gameAssetDirectory": "asset",

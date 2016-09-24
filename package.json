@@ -1,5 +1,5 @@
 {
-  "name": "LCDwriteapp",
+  "name": "TouchNotifier",
   "description": "",
   "version": "0.0.0",
   "main": "main.js",
@@ -7,6 +7,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "q": "latest"
+      "socket.io":"latest",
+      "socket.io-client":"latest"
   }
 }
